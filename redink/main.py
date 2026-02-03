@@ -8,16 +8,16 @@ and estimating potential business impact.
 """
 
 import sys
-from ..core.exceptions import InvalidConfigurationError, RedInkError, TargetResolutionError, EXIT_TARGET_ERROR, EXIT_CONFIG_ERROR, EXIT_INTERNAL_ERROR
-from ..modules.ports.scanner import scan_target
-from ..modules.headers.fingerprint import fingerprint_services
-from ..config.common import print_banner
-from .. import __version__
-from ..core.engine import generate_risk_report
-from ..config.loader import  read_DEFAULT_PORTS
-from .parser import build_parser
-from .cli import parse_ports, print_no_target_error, render_output
-from .logger import setup_logger
+from .core.exceptions import InvalidConfigurationError, RedInkError, TargetResolutionError, EXIT_TARGET_ERROR, EXIT_CONFIG_ERROR, EXIT_INTERNAL_ERROR
+from .modules.ports.scanner import scan_target
+from .modules.headers.fingerprint import fingerprint_services
+from .config.common import print_banner
+from . import __version__
+from .core.engine import generate_risk_report
+from .config.loader import  read_DEFAULT_PORTS
+from .shell.parser import build_parser
+from .shell.cli import parse_ports, print_no_target_error, render_output
+from .shell.logger import setup_logger
 
 def main():
     parser = build_parser()
