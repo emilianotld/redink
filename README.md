@@ -19,9 +19,11 @@ Unlike intrusive scanners or exploit-driven tools, Redink focuses on **context-a
 ## User Interface
 
 ![Main Interface](./docs/screenshots/main_cli.png)
+
 _Main Interface_
 
 ![Final Report](./docs/screenshots/report.png)
+
 _Final Report_
 
 ## Project Philosophy
