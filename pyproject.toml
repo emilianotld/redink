@@ -3,7 +3,7 @@ name = "redink"
 version = "0.0.1"
 description = "Read-only security exposure and risk analysis framework"
 readme = "README.md"
-license = { text = "Apache-2.0" }
+license = "Apache-2.0"
 authors = [{ name = "Alejandro Emiliano Toledo" }]
 requires-python = ">=3.10"
 keywords = ["security", "risk-analysis", "exposure", "pentesting", "kali-linux"]
