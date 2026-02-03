@@ -80,11 +80,13 @@ This repository is structured around a set of focused documents that define REDI
 
 > Recommended: Kali Linux or any Debian-based distribution.
 
+Redink must be installed using `pipx`:
 ```bash
+sudo apt install pipx 
 git clone https://github.com/emilianotld/redink.git
 cd redink
-chmod +x install.sh
-./install.sh
+pipx ensurepath
+pipx install .
 ```
 
 ## Basic Usage
