@@ -17,7 +17,8 @@ classifiers = [
   "Programming Language :: Python :: 3.10",
 ]
 dependencies = [
-  "urllib3>=2.0"
+  "urllib3>=2.0",
+  "requests>=2.31"
 ]
 
 [project.scripts]
