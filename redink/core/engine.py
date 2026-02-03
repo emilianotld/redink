@@ -21,17 +21,17 @@ and estimating potential business impact.
 """
 
 import logging
-from .ruleset import (
+from redink.core.ruleset import (
     score_port,
     score_security_headers,
     score_server_disclosure
 )
-from .ruleset import classify_risk
-from .scoring import score_finding, risk_to_loss_range
-from .recommendations.registry import get_recommendations
-from .model import Finding
-from .rules import RULES_BY_SERVICE
-from .context import Recommendation, ScanContext, ScanFinding
+from redink.core.ruleset import classify_risk
+from redink.core.scoring import score_finding, risk_to_loss_range
+from redink.core.recommendations.registry import get_recommendations
+from redink.core.model import Finding
+from redink.core.rules import RULES_BY_SERVICE
+from redink.core.context import Recommendation, ScanContext, ScanFinding
 
 def evaluate_service(scan_result: dict) -> Finding:
     port = scan_result["port"]
