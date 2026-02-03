@@ -33,3 +33,9 @@ build-backend = "setuptools.build_meta"
 where = ["."]
 include = ["redink*"]
 
+[tool.setuptools.package-data]
+redink = [
+  "config/*.yml",
+  "config/*.yaml",
+  "core/rules/**/*.yml"
+]
