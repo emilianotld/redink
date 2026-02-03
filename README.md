@@ -18,10 +18,10 @@ Unlike intrusive scanners or exploit-driven tools, Redink focuses on **context-a
 ## User Interface
 
 ![Main Interface](./docs/screenshots/main_cli.png)
-*Main Interface*
+_Main Interface_
 
 ![Final Report](./docs/screenshots/report.png)
-*Final Report*
+_Final Report_
 
 ## Project Philosophy
 
@@ -46,21 +46,25 @@ This is not a standalone script. It is a tool designed to grow: new modules, new
 This repository is structured around a set of focused documents that define REDINK from a technical, ethical, and strategic perspective:
 
 - **Vision**
+
   - [`VISION`](./docs/vision.md) — Project purpose, long-term goals, and guiding ideas behind REDINK.
 
 - **Architecture**
+
   - [`ARCHITECTURE`](./docs/architecture.md) — High-level system architecture, core components, and data flow.
 
 - **CLI Specification**
+
   - [`CLI`](./docs/cli-contract.md) — Command-line interface contract, flags, execution modes, and expected behaviors.
 
 - **Design Principles**
+
   - [`DESIGN`](./docs/design-principles.md) — Engineering principles, design decisions, and constraints guiding development.
 
 - **Risk & Cost Model**
   - [`COST-MODEL`](./docs/cost-model.md) — Economic risk estimation model and rationale behind exposure-to-cost calculations.
-  
 - **Ethics & Legal**
+
   - [`ETHICS AND DISCLAIMER`](./docs/ethics-and-disclaimer.md) — Ethical use policy, scope limitations, and legal disclaimer.
   - [`SECURITY`](./SECURITY.md) — Vulnerability reporting process and security policy.
   - [`NOTICE`](./NOTICE) — Required attributions and notices under the Apache License 2.0.
@@ -74,7 +78,7 @@ This repository is structured around a set of focused documents that define REDI
 > Recommended: Kali Linux or any Debian-based distribution.
 
 ```bash
-git clone https://github.com/youruser/redink.git
+git clone https://github.com/emilianotld/redink.git
 cd redink
 chmod +x install.sh
 ./install.sh
