@@ -1,0 +1,58 @@
+default_ports:
+  - 21
+  - 22
+  - 23
+  - 25
+  - 53
+  - 80
+  - 110
+  - 143
+  - 443
+  - 445
+  - 3306
+  - 3389
+  - 5432
+  - 6379
+  - 8080
+
+services:
+  21: FTP
+  22: SSH
+  23: TELNET
+  25: SMTP
+  53: DNS
+  80: HTTP
+  110: POP3
+  143: IMAP
+  443: HTTPS
+  445: SMB
+  3306: MySQL
+  3389: RDP
+  5432: PostgreSQL
+  6379: Redis
+  8080: HTTP-ALT
+  27017: MongoDB
+
+REQUIRED_SECURITY_HEADERS:
+  - Content-Security-Policy
+  - X-Frame-Options
+  - Strict-Transport-Security
+
+RULE_SEVERITY:
+  missing_hsts: medium
+  missing_csp: medium
+  open_ssh: medium
+  sensitive_port: high
+  server_disclosure: low
+  db_exposed_service: medium
+  ftp_cleartext_auth: high
+  ftp_anonymous_enabled: high
+  missing_xframe: low
+  tls_missing_hsts: medium
+  weak_tls_configuration: medium
+
+SEVERITY_WEIGHTS:
+  low: 1
+  medium: 3
+  high: 5
+  critical: 10

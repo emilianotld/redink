@@ -1,0 +1,32 @@
+risk_ranges:
+  low:
+    label: Low Risk
+    loss_usd:
+      min: 0
+      max: 1000
+    description: >
+      Minor security issues with negligible financial impact.
+
+  medium:
+    label: Medium Risk
+    loss_usd:
+      min: 1000
+      max: 10000
+    description: >
+      Exploitable weaknesses that may lead to limited financial loss.
+
+  high:
+    label: High Risk
+    loss_usd:
+      min: 10000
+      max: 50000
+    description: >
+      Serious vulnerabilities that could result in significant losses.
+
+  critical:
+    label: Critical Risk
+    loss_usd:
+      min: 50000
+      max: 250000
+    description: >
+      Severe exposure with high probability of major financial damage.
