@@ -27,3 +27,6 @@ build-backend = "setuptools.build_meta"
 [tool.setuptools.packages.find]
 where = ["."]
 include = ["redink*"]
+
+[project.dependencies]
+urllib3 = ">=2.0"
