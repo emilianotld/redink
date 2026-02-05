@@ -20,6 +20,16 @@ from redink.shell.cli import parse_ports, print_no_target_error, render_output
 from redink.shell.logger import setup_logger
 
 def main():
+    """
+    Identify the likely service running on a port.
+
+    :param host: The target host.
+    :param port: The target port.
+    :param timeout: Timeout for the operation.
+    :raises InvalidConfigurationError: If the host or port is invalid.
+    :raises RedInkError: If fingerprinting fails.
+    :return: A dictionary with the fingerprint details.
+    """
     parser = build_parser()
     args = parser.parse_args()
     if len(sys.argv) == 1:
