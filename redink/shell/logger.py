@@ -1,15 +1,24 @@
-#!/usr/bin/env python3
-# Copyright 2026 Alejandro Emiliano Toledo
-# Licensed under the Apache License, Version 2.0
-
-"""
-Risk evaluation engine responsible for classifying findings
-and estimating potential business impact.
-"""
-
 import logging
 
 def setup_logger(verbosity: int, silent: bool):
+    """
+    Sets up the logger with the appropriate verbosity level and format.
+
+    Args:
+        verbosity (int): The verbosity level (0-3).
+        silent (bool): If True, only errors will be logged.
+
+    Returns:
+        logging.Logger: Configured logger instance.
+    """
+    logger = logging.getLogger("redink")
+    logger.setLevel(logging.DEBUG)  # Set the base level to DEBUG to allow all messages
+
+    # Remove existing handlers to avoid duplicate logs
+    if logger.hasHandlers():
+        logger.handlers.clear()
+
+    # Determine the logging level based on verbosity and silent flags
     if silent:
         level = logging.ERROR
     else:
@@ -22,9 +31,16 @@ def setup_logger(verbosity: int, silent: bool):
         else:
             level = logging.ERROR
 
-    logging.basicConfig(
-        level=level,
-        format="[%(levelname)s] %(message)s"
+    # Create a StreamHandler with the desired format
+    handler = logging.StreamHandler()
+    formatter = logging.Formatter(
+        "[%(asctime)s] [%(levelname)s] %(message)s",
+        datefmt="%H:%M:%S"  # Only show the time (hours:minutes:seconds)
     )
+    handler.setFormatter(formatter)
+    handler.setLevel(level)
 
-    return logging.getLogger("redink")
+    # Add the handler to the logger
+    logger.addHandler(handler)
+
+    return logger

@@ -6,81 +6,111 @@
 Risk evaluation engine responsible for classifying findings
 and estimating potential business impact.
 """
+
 import yaml
 from pathlib import Path
 
-def load_default_config():
-    path = Path(__file__).parent / "defaults.yaml"
+def _load_yaml_file(file_path: str) -> dict:
+    """
+    Loads a YAML file and returns its contents as a dictionary.
+
+    Args:
+        file_path (str): The path to the YAML file.
+
+    Returns:
+        dict: The contents of the YAML file.
+
+    Raises:
+        FileNotFoundError: If the file does not exist.
+        yaml.YAMLError: If the file is not a valid YAML file.
+    """
+    path = Path(file_path)
+    if not path.exists():
+        raise FileNotFoundError(f"Configuration file not found: {file_path}")
+
     with open(path, "r") as f:
-        raw = yaml.safe_load(f)
+        return yaml.safe_load(f)
+
+def load_default_config() -> dict:
+    """
+    Loads the default configuration from 'defaults.yaml'.
+
+    Returns:
+        dict: The default configuration.
+    """
+    raw = _load_yaml_file(Path(__file__).parent / "defaults.yaml")
 
     services = raw.get("services", {})
-    raw["services"] = {
-        int(port): service
-        for port, service in services.items()
-    }
+    raw["services"] = {int(port): service for port, service in services.items()}
 
-    raw["default_ports"] = [
-        int(p) for p in raw.get("default_ports", [])
-    ]
-
+    raw["default_ports"] = [int(p) for p in raw.get("default_ports", [])]
     return raw
 
-def load_port_config():
-    path = Path(__file__).parent / "ports.yaml"
-    with open(path, "r") as f:
-        raw = yaml.safe_load(f)
+def load_port_config() -> dict:
+    """
+    Loads the port configuration from 'ports.yaml'.
 
-    raw["common_risky_ports"] = [
-        int(p) for p in raw.get("common_risky_ports", [])
-    ]
+    Returns:
+        dict: The port configuration.
+    """
+    raw = _load_yaml_file(Path(__file__).parent / "ports.yaml")
+    raw["common_risky_ports"] = [int(p) for p in raw.get("common_risky_ports", [])]
     return raw
 
-def load_header_config():
-    path = Path(__file__).parent / "defaults.yaml"
-    with open(path, "r") as f:
-        raw = yaml.safe_load(f)
+def load_header_config() -> dict:
+    """
+    Loads the header configuration from 'defaults.yaml'.
 
-    raw["REQUIRED_SECURITY_HEADERS"] = [
-        p for p in raw.get("REQUIRED_SECURITY_HEADERS", [])
-    ]
+    Returns:
+        dict: The header configuration.
+    """
+    raw = _load_yaml_file(Path(__file__).parent / "defaults.yaml")
+    raw["REQUIRED_SECURITY_HEADERS"] = raw.get("REQUIRED_SECURITY_HEADERS", [])
     return raw
 
-def load_risk_config():
-    path = Path(__file__).parent / "risk-ranges.yaml"
-    with open(path, "r") as f:
-        raw = yaml.safe_load(f)
+def load_risk_config() -> dict:
+    """
+    Loads the risk configuration from 'risk-ranges.yaml'.
 
-    raw["loss_usd"] = [
-        p for p in raw.get("loss_usd", [])
-    ]
+    Returns:
+        dict: The risk configuration.
+    """
+    raw = _load_yaml_file(Path(__file__).parent / "risk-ranges.yaml")
+    raw["loss_usd"] = raw.get("loss_usd", [])
     return raw
 
-def load_scoring_config():
-    path = Path(__file__).parent / "defaults.yaml"
-    with open(path, "r") as f:
-        raw = yaml.safe_load(f)
+def load_scoring_config() -> dict:
+    """
+    Loads the scoring configuration from 'defaults.yaml'.
 
-    return raw
+    Returns:
+        dict: The scoring configuration.
+    """
+    return _load_yaml_file(Path(__file__).parent / "defaults.yaml")
 
-def load_sensitive_ports_config():
-    path = Path(__file__).parent / "ports.yaml"
-    with open(path, "r") as f:
-        raw = yaml.safe_load(f)
+def read_DEFAULT_PORTS() -> list:
+    """
+    Reads the default ports from the default configuration.
 
-    return raw
+    Returns:
+        list: A list of default ports.
+    """
+    return load_default_config().get("default_ports", [])
 
-def read_DEFAULT_PORTS():
-    CONFIG = load_default_config()
-    DEFAULT_PORTS = CONFIG["default_ports"]
-    return DEFAULT_PORTS
+def read_COMMON_RISKY_PORTS() -> list:
+    """
+    Reads the common risky ports from the port configuration.
 
-def read_COMMON_RISKY_PORTS():
-    CONFIG = load_port_config()
-    COMMON_RISKY_PORTS = CONFIG["common_risky_ports"]
-    return COMMON_RISKY_PORTS
+    Returns:
+        list: A list of common risky ports.
+    """
+    return load_port_config().get("common_risky_ports", [])
 
-def read_SENSITIVE_PORTS():
-    CONFIG = load_sensitive_ports_config()
-    SENSITIVE_PORTS = CONFIG.get("sensitive_ports", {})
-    return SENSITIVE_PORTS
+def read_SENSITIVE_PORTS() -> dict:
+    """
+    Reads the sensitive ports from the port configuration.
+
+    Returns:
+        dict: A dictionary of sensitive ports.
+    """
+    return load_port_config().get("sensitive_ports", {})
