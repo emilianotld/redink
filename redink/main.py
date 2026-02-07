@@ -49,7 +49,6 @@ def main():
             concurrency=args.concurrency # concurrency value from parser
         )
         services = fingerprint_services(host=args.target, open_ports=open_ports)
-        print(f"Identified services: {services}")
         report = generate_risk_report(target=args.target, scan_results=services)
         
         render_output(report, args.output)

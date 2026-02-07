@@ -40,5 +40,4 @@ def scan_target(
     open_ports = [
         r for r in results if r["status"] == "open"
     ]
-    print(f"Found {open_ports}")
     return open_ports
