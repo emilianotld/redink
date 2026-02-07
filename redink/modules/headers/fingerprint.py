@@ -105,6 +105,9 @@ def fingerprint_services(host: str, open_ports: List[Dict]) -> List[Dict]:
     results = []
     logger.info("Executing fingerprint...")
     logger.debug(f"hostname={host}, open ports={len(open_ports)}")
+    if open_ports == []:
+        logger.info("No open ports to fingerprint.")
+        return results
     for entry in open_ports:
         port = entry["port"]
         result = fingerprint_service(host, port)
