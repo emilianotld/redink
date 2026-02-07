@@ -32,11 +32,11 @@ from redink.core.recommendations.registry import get_recommendations
 from redink.core.model import Finding
 from redink.core.rules import RULES_BY_SERVICE
 from redink.core.context import Recommendation, ScanContext, ScanFinding
+logger = logging.getLogger("redink")
 
 def evaluate_service(scan_result: dict) -> Finding:
     port = scan_result["port"]
     service = scan_result.get("service", "unknown")
-    logger = logging.getLogger("redink")
     logger.info(f"Evaluating service {service} on port {port}...")
     # 1. Execute rules
     try:

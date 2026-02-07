@@ -16,8 +16,6 @@ from redink.config.loader import load_default_config
 from redink.core.exceptions import InvalidConfigurationError, RedInkError
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
-# Configure logging
-logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 logger = logging.getLogger("redink")
 
 # Constants

@@ -12,6 +12,8 @@ from typing import List, Dict
 import logging
 from .rules import resolve_target, scan_ports_async
 
+logger = logging.getLogger("redink")
+
 def scan_target(
     target: str,
     ports: List[int],
@@ -22,10 +24,9 @@ def scan_target(
     Public function of the module.
     Resolves the target and performs the scan.
     """
-    logger = logging.getLogger("redink")
+    
     logger.info("Scanning ports...")
     logger.debug(f"Using timeout={timeout}, concurrency={concurrency}")
-    
     ip = ip = resolve_target(target)
     results = asyncio.run(
         scan_ports_async(
