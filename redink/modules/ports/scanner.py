@@ -27,7 +27,7 @@ def scan_target(
     
     logger.info("Scanning ports...")
     logger.debug(f"Using timeout={timeout}, concurrency={concurrency}")
-    ip = ip = resolve_target(target)
+    ip = resolve_target(target)
     results = asyncio.run(
         scan_ports_async(
             ip,
@@ -36,7 +36,7 @@ def scan_target(
             concurrency=concurrency
        )
     )
-    
+    print(results)
     open_ports = [
         r for r in results if r["status"] == "open"
     ]
