@@ -36,18 +36,6 @@ def test_fingerprint_http_service_success():
         assert "X-Frame-Options" in result["security_headers"]
         assert "Strict-Transport-Security" in result["security_headers"]
 
-def test_fingerprint_http_service_failure():
-    """
-    Test fingerprint_http_service when an HTTP request fails.
-    """
-    host = "example.com"
-    port = 80
-    timeout = 2.0
-
-    with patch("requests.Session.get", side_effect=Exception("HTTP request failed")):
-        with pytest.raises(Exception, match="HTTP fingerprinting failed for http://example.com:80"):
-            fingerprint_http_service(host, port, timeout)
-
 def test_fingerprint_services():
     """
     Test fingerprint_services with multiple open ports.
@@ -67,6 +55,28 @@ def test_fingerprint_services():
         assert result[0]["details"]["server"] == "Apache"
         assert result[1]["details"]["server"] == "Nginx"
 
+def test_fingerprint_services_error_handling():
+    """
+    Test fingerprint_services handles errors during fingerprinting.
+    """
+    target = "example.com"
+    open_ports = [{'port': 80, 'status': 'open'}, {'port': 443, 'status': 'open'}]
+    
+    with patch("redink.modules.headers.fingerprint.fingerprint_service", side_effect=Exception("Fingerprinting error")):
+        with pytest.raises(Exception, match="Fingerprinting error"):
+            fingerprint_services(target, open_ports)
+            
+def test_fingerprint_http_service_failure():
+    """
+    Test fingerprint_http_service when an HTTP request fails.
+    """
+    host = "example.com"
+    port = 80
+    timeout = 2.0
+
+    with patch("requests.Session.get", side_effect=Exception("HTTP request failed")):
+        with pytest.raises(Exception, match="HTTP fingerprinting failed for http://example.com:80"):
+            fingerprint_http_service(host, port, timeout)
 
 def test_fingerprint_services_no_ports():
     """
@@ -93,13 +103,3 @@ def test_fingerprint_services_invalid_target():
         assert result[0]["details"]["server"] == "Apache"
         assert result[1]["details"]["server"] == "Nginx"
 
-def test_fingerprint_services_error_handling():
-    """
-    Test fingerprint_services handles errors during fingerprinting.
-    """
-    target = "example.com"
-    open_ports = [{'port': 80, 'status': 'open'}, {'port': 443, 'status': 'open'}]
-    
-    with patch("redink.modules.headers.fingerprint.fingerprint_service", side_effect=Exception("Fingerprinting error")):
-        with pytest.raises(Exception, match="Fingerprinting error"):
-            fingerprint_services(target, open_ports)
