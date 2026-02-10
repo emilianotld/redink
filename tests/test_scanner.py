@@ -61,5 +61,4 @@ def test_resolve_target_invalid_target():
     """
     target = "invalid_target"
     with pytest.raises(ValueError, match="Invalid target"):
-        ip = resolve_target(target)
-        assert ip == ip
+        resolve_target(target)
