@@ -18,14 +18,20 @@ def test_scan_target_success():
     ports = [22, 80, 443]
     timeout = 2.0
     concurrency = 10
+
+    # Mock the scan_ports_async function to simulate all ports closed
+    mock_ports = [
+        {'port': 21, 'status': 'closed'},
+        {'port': 22, 'status': 'closed'},
+        {'port': 80, 'status': 'open'},
+        {'port': 443, 'status': 'open'},
+        {'port': 8080, 'status': 'closed'}
+    ]
     # Mock the scanning function to simulate open ports
-    with patch("redink.modules.ports.scanner.some_scanning_function") as mock_scan:
-        mock_scan.return_value = {22: "SSH", 80: "HTTP", 443: "HTTPS"}
+    with patch("redink.modules.ports.scanner.scan_ports_async", return_value=mock_ports):
         result = scan_target(target, ports, timeout, concurrency)
-        assert len(result) == 3
-        assert result[22] == "SSH"
-        assert result[80] == "HTTP"
-        assert result[443] == "HTTPS"
+        assert result == [{'port': 80, 'status': 'open'},
+        {'port': 443, 'status': 'open'}]  # No open ports should result in an empty dictionary
 
 def test_scan_target_no_open_ports():
     """
@@ -46,7 +52,7 @@ def test_scan_target_no_open_ports():
 
     with patch("redink.modules.ports.scanner.scan_ports_async", return_value=mock_ports):
         result = scan_target(target, ports, timeout, concurrency)
-        assert result == {}  # No open ports should result in an empty dictionary
+        assert [] == {}  # No open ports should result in an empty dictionary
 
 def test_scan_target_invalid_target():
     """
