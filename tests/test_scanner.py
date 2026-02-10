@@ -55,6 +55,23 @@ def test_scan_target_no_open_ports():
         result = scan_target(target, ports, timeout, concurrency)
         assert [] == result  # No open ports should result in an empty dictionary
 
+def test_resolve_target_valid_domain():
+    """
+    Test resolve_target with a valid domain name.
+    """
+    target = "example.com"
+    with patch("socket.gethostbyname", return_value="93.184.216.34"):
+        result = resolve_target(target)
+        assert result == "93.184.216.34"
+
+def test_resolve_target_valid_ip():
+    """
+    Test resolve_target with a valid IP address.
+    """
+    target = "192.168.1.1"
+    result = resolve_target(target)
+    assert result == "192.168.1.1"
+
 def test_resolve_target_invalid_target():
     """
     Test scan_target with an invalid target.
@@ -62,3 +79,5 @@ def test_resolve_target_invalid_target():
     target = "invalid_target"
     with pytest.raises(ValueError, match="Invalid target"):
         resolve_target(target)
+
+        
