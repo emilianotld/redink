@@ -10,7 +10,9 @@ and estimating potential business impact.
 import asyncio
 import socket
 from typing import List, Dict
+
 from redink.core.exceptions import TargetResolutionError
+
 
 async def check_port(host: str, port: int, timeout: float = 1.0) -> Dict:
     """
@@ -68,4 +70,3 @@ def resolve_target(target: str) -> str:
             f"Unable to resolve target '{target}'",
             cause=e
         ) from e
-

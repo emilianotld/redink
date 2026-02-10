@@ -8,6 +8,7 @@ and estimating potential business impact.
 """
 import pytest
 from unittest.mock import patch, MagicMock
+from redink.modules.ports.rules import resolve_target
 from redink.modules.ports.scanner import scan_target
 
 def test_scan_target_success():
@@ -52,15 +53,12 @@ def test_scan_target_no_open_ports():
 
     with patch("redink.modules.ports.scanner.scan_ports_async", return_value=mock_ports):
         result = scan_target(target, ports, timeout, concurrency)
-        assert [] == {}  # No open ports should result in an empty dictionary
+        assert [] == result  # No open ports should result in an empty dictionary
 
-def test_scan_target_invalid_target():
+def test_resolve_target_invalid_target():
     """
     Test scan_target with an invalid target.
     """
     target = "invalid_target"
-    ports = [22, 80, 443]
-    timeout = 2.0
-    concurrency = 10
     with pytest.raises(ValueError, match="Invalid target"):
-        scan_target(target, ports, timeout, concurrency)
+        ip = resolve_target(target)
