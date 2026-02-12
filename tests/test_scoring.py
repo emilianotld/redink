@@ -17,3 +17,10 @@ def test_score_finding_valid():
     finding = Finding(rule_id="R1", evidence="Test evidence", service="HTTP")
     score = score_finding(finding)
     assert score == 5, "Expected score for rule R1 is 5"
+
+def test_score_finding_invalid():
+    """
+    Test score_finding with an invalid input.
+    """
+    with pytest.raises(ValueError, match="Invalid finding object provided."):
+        score_finding("invalid_object")
