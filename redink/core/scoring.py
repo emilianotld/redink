@@ -29,6 +29,12 @@ def score_finding(finding: Finding) -> int:
     """
     if not isinstance(finding, Finding):
         raise ValueError("Invalid finding object provided.")
+    
+    if not finding.rule_id:
+        raise ValueError("Finding must have a valid rule_id.")
+    
+    if not isinstance(finding.rule_id, str):
+        raise ValueError("Finding's rule_id must be a string.")
 
     RULE_SEVERITY = SCORING_CONFIG.get("RULE_SEVERITY", {})
     SEVERITY_WEIGHTS = SCORING_CONFIG.get("SEVERITY_WEIGHTS", {})

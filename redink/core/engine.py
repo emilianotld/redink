@@ -74,7 +74,15 @@ def evaluate_service(scan_result: dict) -> Finding:
                 if not hasattr(finding, "evidence") or not hasattr(finding, "rule_id"):
                     logger.warning(f"Invalid finding: {finding}. Missing required attributes.")
                     continue
+                
+                if not isinstance(finding.rule_id, str):
+                    logger.warning(f"Invalid rule_id in finding: {finding}. Skipping this finding.")
+                    continue
 
+                if not isinstance(finding.evidence, str):
+                    logger.warning(f"Invalid evidence in finding: {finding}. Skipping evidence for this finding.")
+                    finding.evidence = ""
+                    
                 score = score_finding(finding)
                 total_score += score
 

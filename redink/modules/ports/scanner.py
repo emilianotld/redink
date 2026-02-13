@@ -36,7 +36,6 @@ def scan_target(
             concurrency=concurrency
        )
     )
-    print(results)
     open_ports = [
         r for r in results if r["status"] == "open"
     ]
