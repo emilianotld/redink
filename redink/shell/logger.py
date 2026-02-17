@@ -33,10 +33,7 @@ def setup_logger(verbosity: int, silent: bool):
 
     # Create a StreamHandler with the desired format
     handler = logging.StreamHandler()
-    formatter = logging.Formatter(
-        "[%(asctime)s] [%(levelname)s] %(message)s",
-        datefmt="%H:%M:%S"  # Only show the time (hours:minutes:seconds)
-    )
+    formatter = logging.Formatter("[%(asctime)s] [%(levelname)s] %(message)s", datefmt="%H:%M:%S")
     handler.setFormatter(formatter)
     handler.setLevel(level)
 
