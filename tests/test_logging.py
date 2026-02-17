@@ -36,8 +36,11 @@ def test_logger_silent(capsys):
     """
     logger = setup_logger(verbosity=2, silent=True)
     logger.info("This message should not appear.")
+    logger.error("This error should appear.")
     captured = capsys.readouterr()
-    assert captured.out == ""
+    assert "This message should not appear." not in captured.out
+    assert "[ERROR]" in captured.out
+    assert "This error should appear." in captured.out
 
 def test_logger_warning_level(capsys):
     """
@@ -45,9 +48,11 @@ def test_logger_warning_level(capsys):
     """
     logger = setup_logger(verbosity=1, silent=False)
     logger.warning("This is a warning message.")
+    logger.info("This info message should not appear.")
     captured = capsys.readouterr()
     assert "[WARNING]" in captured.out
     assert "This is a warning message." in captured.out
+    assert "This info message should not appear." not in captured.out
 
 def test_logger_error_level(capsys):
     """
@@ -55,6 +60,8 @@ def test_logger_error_level(capsys):
     """
     logger = setup_logger(verbosity=0, silent=False)
     logger.error("This is an error message.")
+    logger.warning("This warning message should not appear.")
     captured = capsys.readouterr()
     assert "[ERROR]" in captured.out
     assert "This is an error message." in captured.out
+    assert "This warning message should not appear." not in captured.out
