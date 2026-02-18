@@ -7,6 +7,7 @@ Risk evaluation engine responsible for classifying findings
 and estimating potential business impact.
 """
 import pytest
+import yaml
 from redink.config.loader import load_default_config, load_port_config, _load_yaml_file
 
 def test_load_default_config():
@@ -44,3 +45,17 @@ def test_load_yaml_file_invalid():
     """
     with pytest.raises(FileNotFoundError):
         _load_yaml_file("non_existent.yaml")
+
+def test_load_yaml_file_malformed(tmp_path):
+    """
+    Test _load_yaml_file with a malformed YAML file.
+    """
+    
+    config_dir = tmp_path / "config"
+    config_dir.mkdir()
+
+    yaml_file = config_dir / "malformed.yaml"
+    yaml_file.write_text("key: value\nkey2: :value2")  
+
+    with pytest.raises(yaml.YAMLError, match="while parsing a block mapping"):
+        _load_yaml_file(str(yaml_file))
