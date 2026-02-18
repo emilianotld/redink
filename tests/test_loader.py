@@ -61,8 +61,8 @@ def test_load_default_config(tmp_path):
     assert config["default_ports"] == [
         21, 22, 23, 25, 53, 80, 110, 143, 443, 445, 3306, 3389, 5432, 6379, 8080
     ], "Default ports should match the expected list"
-    assert config["services"]["21"] == "FTP", "Service for port 21 should be FTP"
-    assert config["services"]["443"] == "HTTPS", "Service for port 443 should be HTTPS"
+    assert config["services"][21] == "FTP", "Service for port 21 should be FTP"
+    assert config["services"][443] == "HTTPS", "Service for port 443 should be HTTPS"
 
 def test_load_port_config(tmp_path):
     """
@@ -95,13 +95,12 @@ def test_load_port_config(tmp_path):
     assert "common_risky_ports" in config, "Port config should contain 'common_risky_ports'"
     assert "SENSITIVE_PORTS" in config, "Port config should contain 'SENSITIVE_PORTS'"
     assert config["common_risky_ports"] == [21, 23, 3306, 6379], "Common risky ports should match the expected list"
-    assert config["SENSITIVE_PORTS"]["3306"] == "MySQL", "Sensitive port 3306 should be MySQL"
-    assert config["SENSITIVE_PORTS"]["9200"] == "Elasticsearch", "Sensitive port 9200 should be Elasticsearch"
+    assert config["SENSITIVE_PORTS"][3306] == "MySQL", "Sensitive port 3306 should be MySQL"
+    assert config["SENSITIVE_PORTS"][9200] == "Elasticsearch", "Sensitive port 9200 should be Elasticsearch"
 def test_read_default_ports(tmp_path):
     """
     Test read_DEFAULT_PORTS to ensure it reads default ports correctly.
     """
-    # Crear un archivo defaults.yaml válido
     defaults_file = tmp_path / "defaults.yaml"
     defaults_file.write_text("""
     default_ports:
@@ -109,7 +108,6 @@ def test_read_default_ports(tmp_path):
       - 443
     """)
 
-    # Mockear el directorio del archivo para que apunte al archivo temporal
     from redink.config.loader import read_DEFAULT_PORTS
     read_DEFAULT_PORTS.__globals__["Path"] = lambda _: defaults_file
 
