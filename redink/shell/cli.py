@@ -32,7 +32,8 @@ def render_output(report, mode="normal"):
        #return render_json(report)
    elif mode == "quiet":
        print("Quiet mode not implemented yet")
-       #return render_quiet(report)
+       report = {}
+       return render_quiet()
    else:
         print_final_report(report)
 
@@ -44,4 +45,12 @@ def print_no_target_error():
     print("  redink 192.168.1.10 --ports 22,80,443\n")
     print("Run 'redink --help' to see all available options.\n")
 
-
+def render_quiet():
+    """
+    Render the report in quiet mode.
+    This function intentionally does nothing to suppress all output.
+    
+    Args:
+        report (dict): The report data to render (ignored in quiet mode).
+    """
+    pass  # No output is produced in quiet mode
