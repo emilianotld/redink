@@ -10,6 +10,37 @@ and estimating potential business impact.
 import logging
 from typing import Dict, List
 from redink.modules.headers.fingerprint import fingerprint_banner_service, fingerprint_service
+import pytest
+from unittest.mock import patch
+from redink.modules.headers.fingerprint import fingerprint_banner_service, fingerprint_service
+from service_scanner import scan_services
+
+@pytest.fixture
+def mock_fingerprint_banner_service():
+    with patch("redink.modules.headers.fingerprint.fingerprint_banner_service") as mock:
+        yield mock
+
+@pytest.fixture
+def mock_fingerprint_service():
+    with patch("redink.modules.headers.fingerprint.fingerprint_service") as mock:
+        yield mock
+
+def test_scan_services_with_mocked_fingerprints(mock_fingerprint_banner_service, mock_fingerprint_service):
+    # Configure the mock services to return predefined results
+    mock_fingerprint_banner_service.return_value = {"banner": "Mock Banner"}
+    mock_fingerprint_service.return_value = {"headers": {"Server": "Mock Server"}}
+
+    # Example host and ports for testing
+    host = "example.com"
+    ports = [80, 443]
+    results = scan_services(host, ports)
+
+    # Validate the results
+    assert len(results) == 2
+    assert results[0]["port"] == 80
+    assert results[0]["details"]["banner"] == "Mock Banner"
+    assert results[1]["details"]["headers"]["Server"] == "Mock Server"
+
 
 logger = logging.getLogger(__name__)
 
@@ -52,7 +83,7 @@ def scan_services(host: str, ports: List[int] = DEFAULT_PORTS, timeout: float = 
 
 if __name__ == "__main__":
     import argparse
-    
+
     parser = argparse.ArgumentParser(description="Service Scanner for Fingerprinting")
     parser.add_argument("host", help="Target host to scan")
     parser.add_argument(
@@ -65,7 +96,6 @@ if __name__ == "__main__":
     )
     args = parser.parse_args()
 
-    # Ejecutar el escaneo
     scanned_services = scan_services(args.host, args.ports, args.timeout)
     for service in scanned_services:
         print(f"Port {service['port']}: {service['details']}")
