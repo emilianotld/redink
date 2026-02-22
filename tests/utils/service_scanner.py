@@ -51,8 +51,21 @@ def scan_services(host: str, ports: List[int] = DEFAULT_PORTS, timeout: float = 
     return results
 
 if __name__ == "__main__":
-    # Example usage
-    target_host = "example.com"
-    scanned_services = scan_services(target_host)
+    import argparse
+    
+    parser = argparse.ArgumentParser(description="Service Scanner for Fingerprinting")
+    parser.add_argument("host", help="Target host to scan")
+    parser.add_argument(
+        "--ports", nargs="+", type=int, default=DEFAULT_PORTS,
+        help="List of ports to scan (default: common ports)"
+    )
+    parser.add_argument(
+        "--timeout", type=float, default=5.0,
+        help="Timeout for each connection attempt (default: 5.0 seconds)"
+    )
+    args = parser.parse_args()
+
+    # Ejecutar el escaneo
+    scanned_services = scan_services(args.host, args.ports, args.timeout)
     for service in scanned_services:
         print(f"Port {service['port']}: {service['details']}")
