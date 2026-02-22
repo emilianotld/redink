@@ -99,3 +99,10 @@ if __name__ == "__main__":
     scanned_services = scan_services(args.host, args.ports, args.timeout)
     for service in scanned_services:
         print(f"Port {service['port']}: {service['details']}")
+
+"""
+How to use:
+
+python service_scanner.py example.com --ports 80 443 --output results.json
+
+"""
