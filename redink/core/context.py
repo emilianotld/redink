@@ -58,10 +58,7 @@ class ScanContext:
             self.risk_level.lower()
         )
     
-    def __init__(self, target: str, findings=None, open_ports=0, risk_score=0.0, risk_level="", estimated_loss_range=None):
-        """
-        Initialize a ScanContext object.
-        """
+    def __init__(self, target, findings=None, open_ports=0, risk_score=0.0, risk_level="", estimated_loss_range=None):
         self.target = target
         self.findings = findings if findings is not None else []
         self.open_ports = open_ports
@@ -99,6 +96,18 @@ class Recommendation:
     fix: str
     references: List[str] = field(default_factory=list)
 
+    def __init__(self, title, fix, references):
+        self.title = title
+        self.fix = fix
+        self.references = references
+
+    def to_dict(self):
+        return {
+            "title": self.title,
+            "fix": self.fix,
+            "references": self.references,
+        }
+
 @dataclass
 class ScanFinding:
     """
@@ -122,3 +131,33 @@ class ScanFinding:
     rule_ids: List[str]
     reasons: List[str]
     recommendations: List[Recommendation]
+
+    def __init__(self, port, service, risk, score, estimated_loss_range, rule_ids, reasons, recommendations):
+        self.port = port
+        self.service = service
+        self.risk = risk
+        self.score = score
+        self.estimated_loss_range = estimated_loss_range
+        self.rule_ids = rule_ids
+        self.reasons = reasons
+        self.recommendations = recommendations
+
+    def to_dict(self):
+        """
+        Convert the ScanFinding object to a dictionary.
+
+        Returns:
+            dict: A dictionary representation of the ScanFinding object.
+        """
+        return {
+            "port": self.port,
+            "service": self.service,
+            "risk": self.risk,
+            "score": self.score,
+            "estimated_loss_range": self.estimated_loss_range,
+            "rule_ids": self.rule_ids,
+            "reasons": self.reasons,
+            "recommendations": [
+                rec.to_dict() if hasattr(rec, "to_dict") else str(rec) for rec in self.recommendations
+            ],
+        }

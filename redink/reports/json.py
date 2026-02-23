@@ -15,26 +15,26 @@ def save_report_as_json(report, output_dir="reports", filename="report.json"):
     Save the report in JSON format in the specified directory.
 
     Args:
-        report (dict): The report data to save.
+        report (ScanContext): The ScanContext object to save.
         output_dir (str): The directory where the report will be saved.
         filename (str): The name of the JSON file.
 
     Returns:
         str: The path to the saved JSON file.
     """
-    # Create the output directory if it doesn't exist
+    import os
     os.makedirs(output_dir, exist_ok=True)
+    output_file = os.path.join(output_dir, filename)
 
-    # Generate a unique filename with timestamp
-    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    output_file = os.path.join(output_dir, f"{filename}_{timestamp}.json")
+    def custom_serializer(obj):
+        if hasattr(obj, "to_dict"):
+            return obj.to_dict()
+        if hasattr(obj, "__dict__"):
+            return obj.__dict__
+        return str(obj)
 
-    try:
-        # Save report as JSON file
-        with open(output_file, "w") as f:
-            json.dump(report, f, indent=4)
-        print(f"Report saved to {output_file}")
-        return output_file
-    except (OSError, ValueError) as e:
-        print(f"Failed to save report: {e}")
-        return None
+    with open(output_file, "w") as f:
+        json.dump(report, f, indent=4, default=custom_serializer)
+
+    print(f"Report saved to {output_file}")
+    return output_file
