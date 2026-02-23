@@ -17,15 +17,21 @@ def save_report_as_json(report, output_dir="reports", filename="report.json"):
     Args:
         report (ScanContext): The ScanContext object to save.
         output_dir (str): The directory where the report will be saved.
-        filename (str): The name of the JSON file.
+        filename (str): The base name of the JSON file.
 
     Returns:
         str: The path to the saved JSON file.
     """
-    import os
+    # Create the output directory if it doesn't exist
     os.makedirs(output_dir, exist_ok=True)
-    output_file = os.path.join(output_dir, filename)
 
+    # Generate a unique filename using a timestamp
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    base_name, ext = os.path.splitext(filename)
+    unique_filename = f"{base_name}_{timestamp}{ext}"
+    output_file = os.path.join(output_dir, unique_filename)
+
+    # Serialize el reporte a JSON, manejando objetos no serializables
     def custom_serializer(obj):
         if hasattr(obj, "to_dict"):
             return obj.to_dict()
@@ -33,6 +39,7 @@ def save_report_as_json(report, output_dir="reports", filename="report.json"):
             return obj.__dict__
         return str(obj)
 
+    # Save the report as a JSON file
     with open(output_file, "w") as f:
         json.dump(report, f, indent=4, default=custom_serializer)
 
