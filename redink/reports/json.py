@@ -10,7 +10,7 @@ import os
 import json
 from datetime import datetime
 
-def save_report_as_json(report, output_dir="report", filename="report.json"):
+def save_report_as_json(report, output_dir="reports", filename="report.json"):
     """
     Save the report in JSON format in the specified directory.
 

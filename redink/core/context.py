@@ -27,7 +27,6 @@ class ScanContext:
     """
     target: str
     findings: List["ScanFinding"] = field(default_factory=list)
-
     open_ports: int = 0
     risk_score: float = 0.0
     risk_level: str = ""
@@ -58,6 +57,33 @@ class ScanContext:
         self.estimated_loss_range = risk_to_loss_range(
             self.risk_level.lower()
         )
+    
+    def __init__(self, target: str, findings=None, open_ports=0, risk_score=0.0, risk_level="", estimated_loss_range=None):
+        """
+        Initialize a ScanContext object.
+        """
+        self.target = target
+        self.findings = findings if findings is not None else []
+        self.open_ports = open_ports
+        self.risk_score = risk_score
+        self.risk_level = risk_level
+        self.estimated_loss_range = estimated_loss_range if estimated_loss_range is not None else {}
+
+    def to_dict(self):
+        """
+        Convert the ScanContext object to a dictionary.
+
+        Returns:
+            dict: A dictionary representation of the ScanContext object.
+        """
+        return {
+            "target": self.target,
+            "findings": [finding.to_dict() if hasattr(finding, "to_dict") else str(finding) for finding in self.findings],
+            "open_ports": self.open_ports,
+            "risk_score": self.risk_score,
+            "risk_level": self.risk_level,
+            "estimated_loss_range": self.estimated_loss_range,
+        }
 
 @dataclass
 class Recommendation:
