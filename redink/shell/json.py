@@ -7,6 +7,7 @@ Risk evaluation engine responsible for classifying findings
 and estimating potential business impact.
 """
 import json
+from venv import logger
 
 def render_json(report):
     """
@@ -20,6 +21,7 @@ def render_json(report):
     """
     try:
         # Convert the report dictionary to a JSON string
+        logger.debug("Rendering report as JSON")
         return json.dumps(report, indent=4)
     except (TypeError, ValueError) as e:
         raise ValueError(f"Failed to render report as JSON: {e}")

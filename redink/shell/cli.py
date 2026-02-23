@@ -9,6 +9,8 @@ and estimating potential business impact.
 
 from typing import List
 from redink.reports.console import print_final_report
+from redink.reports.json import save_report_as_json
+from redink.shell.json import render_json
 
 def parse_ports(value: str) -> List[int]:
     
@@ -24,18 +26,25 @@ def parse_ports(value: str) -> List[int]:
     return sorted(ports)
 
 
-def render_output(report, mode="normal"):
-   """Renders the final report based on the specified mode.""" 
-   
-   if mode == "json":
-       print("JSON mode not implemented yet")
-       #return render_json(report)
-   elif mode == "quiet":
-       print("Quiet mode not implemented yet")
-       report = {}
-       return render_quiet()
-   else:
-        print_final_report(report)
+def render_output(report, mode="normal", output_dir="report"):
+    """
+    Renders the final report based on the specified mode.
+
+    Args:
+        report (dict): The report data to render.
+        mode (str): The output mode ("normal", "json", "quiet").
+        output_dir (str): The directory where the report will be saved (for JSON mode).
+    """
+    if mode == "json":
+        json_report = render_json(report)
+        print(json_report)
+        save_report_as_json(report, output_dir=output_dir)
+    elif mode == "quiet":
+        print("Quiet mode not implemented yet")
+        report = {}
+        return render_quiet()
+    else:
+            print_final_report(report)
 
 def print_no_target_error():
     print("\n[!] Missing target")
