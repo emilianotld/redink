@@ -36,8 +36,10 @@ def render_output(report, mode="normal", output_dir="report"):
         output_dir (str): The directory where the report will be saved (for JSON mode).
     """
     if mode == "json":
+        # Render the report as a JSON string
         json_report = render_json(report)
-        print(json_report)
+        print(json_report)  # Optionally print the JSON to the console
+        # Save the report as a JSON file
         save_report_as_json(report, output_dir=output_dir)
     elif mode == "quiet":
         print("Quiet mode not implemented yet")
