@@ -26,7 +26,7 @@ def parse_ports(value: str) -> List[int]:
     return sorted(ports)
 
 
-def render_output(report, mode="normal", output_dir="reports"):
+def render_output(report, mode="normal", output_dir="report"):
     """
     Renders the final report based on the specified mode.
 
