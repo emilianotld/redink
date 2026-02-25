@@ -55,7 +55,7 @@ def main():
         # Generate scan metadata
         scan_metadata = {
             "scan_id": str(uuid.uuid4()),
-            "timestamp": datetime.now(timezone.utc).isoformat(),
+            "timestamp": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
             "redink_version": __version__,
         }
         report = generate_risk_report(target=args.target, scan_results=services, scan_metadata=scan_metadata)
