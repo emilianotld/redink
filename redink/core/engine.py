@@ -138,13 +138,11 @@ def generate_risk_report(target: str, scan_results: list, scan_metadata: dict) -
     logger.info("Evaluating risks...")
 
     context = ScanContext(target=target)
-    context.metadata = scan_metadata
-
     for scan_result in scan_results:
         finding = evaluate_service(scan_result)
         context.findings.append(finding)
-
-    context.compute_summary()
     
+    context.compute_summary()
+    context.metadata = scan_metadata
     return context
 

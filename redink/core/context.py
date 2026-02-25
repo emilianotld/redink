@@ -72,7 +72,8 @@ class ScanContext:
         self.risk_score = risk_score
         self.risk_level = risk_level
         self.estimated_loss_range = estimated_loss_range if estimated_loss_range is not None else {}
-
+        self.metadata = {}
+        
     def to_dict(self):
         """
         Convert the ScanContext object to a dictionary.
@@ -87,6 +88,7 @@ class ScanContext:
             "risk_score": self.risk_score,
             "risk_level": self.risk_level,
             "estimated_loss_range": self.estimated_loss_range,
+            "metadata": self.metadata,
         }
 
 @dataclass

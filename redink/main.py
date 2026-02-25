@@ -44,8 +44,6 @@ def main():
         ports = DEFAULT_PORTS
     
     try:
-       
-
         #Initial ports scanning 
         open_ports = scan_target(
             target=args.target,
@@ -54,14 +52,12 @@ def main():
             concurrency=args.concurrency # concurrency value from parser
         )
         services = fingerprint_services(host=args.target, open_ports=open_ports)
-
-         # Generate scan metadata
+        # Generate scan metadata
         scan_metadata = {
             "scan_id": str(uuid.uuid4()),
             "timestamp": datetime.now(timezone.utc).isoformat(),
             "redink_version": __version__,
         }
-        
         report = generate_risk_report(target=args.target, scan_results=services, scan_metadata=scan_metadata)
 
         render_output(report, args.output)
