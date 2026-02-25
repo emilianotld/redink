@@ -7,7 +7,10 @@ Risk evaluation engine responsible for classifying findings
 and estimating potential business impact.
 """
 
+from dataclasses import asdict
+from datetime import datetime, timezone
 import sys
+import uuid
 from redink.core.exceptions import InvalidConfigurationError, RedInkError, TargetResolutionError, EXIT_TARGET_ERROR, EXIT_CONFIG_ERROR, EXIT_INTERNAL_ERROR
 from redink.modules.ports.scanner import scan_target
 from redink.modules.headers.fingerprint import fingerprint_services
@@ -41,6 +44,8 @@ def main():
         ports = DEFAULT_PORTS
     
     try:
+       
+
         #Initial ports scanning 
         open_ports = scan_target(
             target=args.target,
@@ -49,8 +54,16 @@ def main():
             concurrency=args.concurrency # concurrency value from parser
         )
         services = fingerprint_services(host=args.target, open_ports=open_ports)
-        report = generate_risk_report(target=args.target, scan_results=services)
+
+         # Generate scan metadata
+        scan_metadata = {
+            "scan_id": str(uuid.uuid4()),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
+            "redink_version": __version__,
+        }
         
+        report = generate_risk_report(target=args.target, scan_results=services, scan_metadata=scan_metadata)
+
         render_output(report, args.output)
         
     except TargetResolutionError as e:

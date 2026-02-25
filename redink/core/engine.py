@@ -133,17 +133,18 @@ def execute_rules(service, scan_result) -> list[Finding]:
             triggered_findings.append(finding)
     return triggered_findings
 
-def generate_risk_report(target: str, scan_results: list) -> dict:
+def generate_risk_report(target: str, scan_results: list, scan_metadata: dict) -> dict:
     logger = logging.getLogger("redink")
     logger.info("Evaluating risks...")
 
     context = ScanContext(target=target)
+    context.metadata = scan_metadata
 
     for scan_result in scan_results:
         finding = evaluate_service(scan_result)
         context.findings.append(finding)
-        
-    context.compute_summary()
 
+    context.compute_summary()
+    
     return context
 

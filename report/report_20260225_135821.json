@@ -1,0 +1,71 @@
+{
+    "target": "exampleweb.com",
+    "findings": [
+        {
+            "port": 80,
+            "service": "http",
+            "risk": "HIGH",
+            "score": 7.5,
+            "estimated_loss_range": {
+                "label": "High Risk",
+                "loss_usd": {
+                    "min": 10000,
+                    "max": 50000
+                },
+                "description": "Serious vulnerabilities that could result in significant losses.\n"
+            },
+            "rule_ids": [
+                "missing_csp",
+                "missing_hsts"
+            ],
+            "reasons": [
+                "Content-Security-Policy header not present",
+                "X-Frame-Options header not present"
+            ],
+            "recommendations": [
+                {
+                    "rule_id": "missing_csp",
+                    "service": "http",
+                    "title": "Missing Content Security Policy",
+                    "description": "Increases XSS attack surface",
+                    "fix": "Define a strict Content-Security-Policy header",
+                    "references": [
+                        "OWASP A05:2021"
+                    ]
+                }
+            ]
+        },
+        {
+            "port": 443,
+            "service": "https",
+            "risk": "MEDIUM",
+            "score": 4.5,
+            "estimated_loss_range": {
+                "label": "Medium Risk",
+                "loss_usd": {
+                    "min": 1000,
+                    "max": 10000
+                },
+                "description": "Exploitable weaknesses that may lead to limited financial loss.\n"
+            },
+            "rule_ids": [
+                "missing_hsts"
+            ],
+            "reasons": [
+                "Strict-Transport-Security header not present on HTTPS service"
+            ],
+            "recommendations": []
+        }
+    ],
+    "open_ports": 2,
+    "risk_score": 6.0,
+    "risk_level": "HIGH",
+    "estimated_loss_range": {
+        "label": "High Risk",
+        "loss_usd": {
+            "min": 10000,
+            "max": 50000
+        },
+        "description": "Serious vulnerabilities that could result in significant losses.\n"
+    }
+}

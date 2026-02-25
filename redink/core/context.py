@@ -31,6 +31,13 @@ class ScanContext:
     risk_score: float = 0.0
     risk_level: str = ""
     estimated_loss_range: Dict = field(default_factory=dict)
+    metadata: Dict = field(default_factory=dict)
+    
+    def add_metadata(self, key: str, value: any):
+        """
+        Add metadata to the ScanContext object.
+        """
+        self.metadata[key] = value
 
     def compute_summary(self) -> None:
         """
