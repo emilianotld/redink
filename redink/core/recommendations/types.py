@@ -6,7 +6,7 @@
 Risk evaluation engine responsible for classifying findings
 and estimating potential business impact.
 """
-from dataclasses import dataclass
+from dataclasses import asdict, dataclass
 from typing import List
 
 @dataclass(frozen=True)
@@ -17,3 +17,9 @@ class Recommendation:
     description: str
     fix: str
     references: List[str]
+
+    def to_dict(self) -> dict:
+        """
+        Render the Recommendation object as a dictionary.
+        """
+        return asdict(self)

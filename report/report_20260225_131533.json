@@ -23,7 +23,16 @@
                 "X-Frame-Options header not present"
             ],
             "recommendations": [
-                "Recommendation(rule_id='missing_csp', service='http', title='Missing Content Security Policy', description='Increases XSS attack surface', fix='Define a strict Content-Security-Policy header', references=['OWASP A05:2021'])"
+                {
+                    "rule_id": "missing_csp",
+                    "service": "http",
+                    "title": "Missing Content Security Policy",
+                    "description": "Increases XSS attack surface",
+                    "fix": "Define a strict Content-Security-Policy header",
+                    "references": [
+                        "OWASP A05:2021"
+                    ]
+                }
             ]
         },
         {
