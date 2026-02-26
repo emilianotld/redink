@@ -103,6 +103,6 @@ if __name__ == "__main__":
 """
 How to use:
 
-python service_scanner.py example.com --ports 80 443 --output results.json
+python service_scanner.py example.com --ports 80 443 --output json results
 
 """

@@ -52,12 +52,6 @@ def build_parser():
     )
 
     parser.add_argument(
-        "--json",
-        action="store_true",
-        help="Output results in JSON format (machine-readable)"
-    )
-
-    parser.add_argument(
         "--risk-only",
         action="store_true",
         help="Display only risk assessment results"
