@@ -1,8 +1,7 @@
+### 📁 examples/risk_only_mode/README.md
+
 ---
 
-# 📁 examples/risk_only_mode/README.md
-
-````markdown
 # Risk-Only Mode Example
 
 This example demonstrates how to display only risk assessment results.
@@ -20,4 +19,3 @@ Suppress technical scan details and show only:
 ```bash
 redink example.com --risk-only
 ```
-````
