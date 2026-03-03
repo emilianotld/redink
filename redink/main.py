@@ -47,18 +47,29 @@ def main():
     if args.file:
         try:
             with open(args.file, "r", encoding="utf-8") as fh:
-               for line in fh:
-                    t = line.split("#", 1)[0].strip()  # remove comments
+                for line in fh:
+                    t = line.split("#", 1)[0].strip()
                     if t:
                         targets.append(t)
+
+            if not targets:
+                logger.error("Targets file is empty or contains only comments.")
+                sys.exit(EXIT_CONFIG_ERROR)
+
         except FileNotFoundError:
             logger.error(f"Targets file not found: {args.file}")
             sys.exit(EXIT_CONFIG_ERROR)
+
         except OSError as e:
             logger.error(f"Error reading targets file: {e}")
             sys.exit(EXIT_CONFIG_ERROR)
+
     elif args.target:
         targets = [args.target]
+
+    else:
+        logger.error("No target specified.")
+        sys.exit(EXIT_CONFIG_ERROR)
 
     try:
         for t in targets:            
