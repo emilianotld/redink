@@ -43,24 +43,39 @@ def main():
     else:
         ports = DEFAULT_PORTS
     
-    try:
-        #Initial ports scanning 
-        open_ports = scan_target(
-            target=args.target,
-            ports=ports,                 
-            timeout=args.timeout,        # timeout value from parser
-            concurrency=args.concurrency # concurrency value from parser
-        )
-        services = fingerprint_services(host=args.target, open_ports=open_ports)
-        # Generate scan metadata
-        scan_metadata = {
-            "scan_id": str(uuid.uuid4()),
-            "timestamp": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
-            "redink_version": __version__,
-        }
-        report = generate_risk_report(target=args.target, scan_results=services, scan_metadata=scan_metadata)
+    targets = []
+    if args.file:
+        try:
+            with open(args.file, "r", encoding="utf-8") as fh:
+               for line in fh:
+                    t = line.split("#", 1)[0].strip()  # remove comments
+                    if t:
+                        targets.append(t)
+        except FileNotFoundError:
+            logger.error(f"Targets file not found: {args.file}")
+            sys.exit(EXIT_CONFIG_ERROR)
+        except OSError as e:
+            logger.error(f"Error reading targets file: {e}")
+            sys.exit(EXIT_CONFIG_ERROR)
+    elif args.target:
+        targets = [args.target]
 
-        render_output(report, args.output)
+    try:
+        for t in targets:            
+            open_ports = scan_target(
+                target=t,
+                ports=ports,
+                timeout=args.timeout,
+                concurrency=args.concurrency
+            )
+            services = fingerprint_services(host=t, open_ports=open_ports)
+            scan_metadata = {
+                "scan_id": str(uuid.uuid4()),
+                "timestamp": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+                "redink_version": __version__,
+            }
+            report = generate_risk_report(target=t, scan_results=services, scan_metadata=scan_metadata)
+            render_output(report, args.output)
         
     except TargetResolutionError as e:
         logger.error(e)

@@ -97,4 +97,12 @@ def build_parser():
         help="Suppress all non-essential output"
     )
 
+    parser.add_argument(
+        "-f",
+        "--file",
+        dest="file",
+        type=str,
+        help="File containing targets (one per line). Lines starting with '#' or empty lines are ignored."
+    )
+
     return parser
