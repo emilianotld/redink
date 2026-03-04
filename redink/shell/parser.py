@@ -29,7 +29,12 @@ def build_parser():
         nargs="?",
         help="Target hostname or IP address"
     )
-
+    parser.add_argument(
+        "targets",
+        nargs="*",
+        help="Target hostname(s) or IP address(es)"
+    )
+    
     parser.add_argument(
         "--ports",
         type=str,

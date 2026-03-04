@@ -63,14 +63,19 @@ def main():
         except OSError as e:
             logger.error(f"Error reading targets file: {e}")
             sys.exit(EXIT_CONFIG_ERROR)
-
+    
+    if getattr(args, "targets", None):
+        for t in args.targets:
+            if t:
+                targets.append(t)
     elif args.target:
         targets = [args.target]
-
+    
     else:
         logger.error("No target specified.")
         sys.exit(EXIT_CONFIG_ERROR)
-
+   
+    
     try:
         for t in targets:            
             open_ports = scan_target(
