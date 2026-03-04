@@ -26,7 +26,7 @@ def parse_ports(value: str) -> List[int]:
     return sorted(ports)
 
 
-def render_output(report, mode="normal", output_dir="report"):
+def render_output(report, mode="normal", output_dir="report", silent=True):
     """
     Renders the final report based on the specified mode.
 
@@ -36,16 +36,22 @@ def render_output(report, mode="normal", output_dir="report"):
         output_dir (str): The directory where the report will be saved (for JSON mode).
     """
     if mode == "json":
-        # Render the report as a JSON string
+        # Render the report as JSON to print to console (if not silent) and save to file
         json_report = render_json(report)
-        print(json_report)  # Optionally print the JSON to the console
-        # Save the report as a JSON file
+
+        if not silent:
+            print(json_report)
+
         save_report_as_json(report, output_dir=output_dir)
+
     elif mode == "quiet":
-        print("Quiet mode not implemented yet")
-        report = {}
-        return render_quiet()
+        result = render_quiet(report)
+
+        if not silent:
+            print(result)
+
     else:
+        if not silent:
             print_final_report(report)
 
 def print_no_target_error():
@@ -56,12 +62,11 @@ def print_no_target_error():
     print("  redink 192.168.1.10 --ports 22,80,443\n")
     print("Run 'redink --help' to see all available options.\n")
 
-def render_quiet():
+def render_quiet(report):
     """
-    Render the report in quiet mode.
-    This function intentionally does nothing to suppress all output.
-    
-    Args:
-        report (dict): The report data to render (ignored in quiet mode).
+    Render minimal output for quiet mode.
     """
-    pass  # No output is produced in quiet mode
+    target = report.target
+    risk = report.risk_level
+
+    return f"{target} {risk}"

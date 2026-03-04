@@ -86,8 +86,7 @@ def main():
     if not targets:
         logger.error("No target specified.")
         sys.exit(EXIT_CONFIG_ERROR)
-   
-    
+       
     try:
         for t in targets:            
             open_ports = scan_target(
@@ -103,7 +102,7 @@ def main():
                 "redink_version": __version__,
             }
             report = generate_risk_report(target=t, scan_results=services, scan_metadata=scan_metadata)
-            render_output(report, args.output)
+            render_output(report, args.output, silent=args.silent)
         
     except TargetResolutionError as e:
         logger.error(e)
