@@ -63,15 +63,27 @@ def main():
         except OSError as e:
             logger.error(f"Error reading targets file: {e}")
             sys.exit(EXIT_CONFIG_ERROR)
-    
+
+    # Add single positional target if present
+    if getattr(args, "target", None):
+        targets.append(args.target)
+
+    # Add multiple positional targets if present
     if getattr(args, "targets", None):
         for t in args.targets:
             if t:
                 targets.append(t)
-    elif args.target:
-        targets = [args.target]
-    
-    else:
+
+    # Deduplicate while preserving order
+    seen = set()
+    deduped = []
+    for t in targets:
+        if t not in seen:
+            seen.add(t)
+            deduped.append(t)
+    targets = deduped
+
+    if not targets:
         logger.error("No target specified.")
         sys.exit(EXIT_CONFIG_ERROR)
    
