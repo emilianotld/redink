@@ -92,7 +92,7 @@ pipx install .
 ## Basic Usage
 
 ```bash
-redink <module> [options]
+redink <target> [options]
 ```
 
 Examples:
