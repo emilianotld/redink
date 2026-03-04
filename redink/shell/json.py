@@ -7,7 +7,6 @@ Risk evaluation engine responsible for classifying findings
 and estimating potential business impact.
 """
 import json
-from venv import logger
 
 def render_json(report):
     """
