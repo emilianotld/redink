@@ -10,6 +10,7 @@ and estimating potential business impact.
 from typing import List
 from redink.reports.console import print_final_report
 from redink.reports.json import save_report_as_json
+from redink.reports.yaml import render_yaml, save_report_as_yaml
 from redink.shell.json import render_json
 
 def parse_ports(value: str) -> List[int]:
@@ -49,7 +50,11 @@ def render_output(report, mode="normal", output_dir="report", silent=True):
 
         if not silent:
             print(result)
-
+    elif mode == "yaml":
+        save_report_as_yaml(report, output_dir=output_dir)
+        yaml_report = render_yaml(report)
+        if not silent:
+            print(yaml_report)
     else:
         if not silent:
             print_final_report(report)
