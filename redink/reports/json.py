@@ -8,7 +8,8 @@ and estimating potential business impact.
 """
 import os
 import json
-from datetime import datetime
+from datetime import datetime, timezone
+from redink.reports.filename import generate_report_filename
 
 def save_report_as_json(report, output_dir="report", filename="report.json"):
     """
@@ -24,12 +25,15 @@ def save_report_as_json(report, output_dir="report", filename="report.json"):
     """
     # Create the output directory if it doesn't exist
     os.makedirs(output_dir, exist_ok=True)
-
+    """
     # Generate a unique filename using a timestamp
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     base_name, ext = os.path.splitext(filename)
     unique_filename = f"{base_name}_{timestamp}{ext}"
-    output_file = os.path.join(output_dir, unique_filename)
+    """
+    # Determine a sensible filename if none provided
+    filename = generate_report_filename(report, output_dir=output_dir, extension="json")
+    output_file = os.path.join(output_dir, f"{filename}")
 
     # Serialize el reporte a JSON, manejando objetos no serializables
     def custom_serializer(obj):

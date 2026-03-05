@@ -8,9 +8,10 @@ YAML report renderer/saver for RedInk.
 
 from typing import Any, Optional
 import os
-from datetime import datetime, timezone
 import dataclasses
 import yaml
+
+from redink.reports.filename import generate_report_filename
 
 def _to_primitive(obj: Any) -> Any:
     """
@@ -45,20 +46,11 @@ def save_report_as_yaml(report: Any, output_dir: str = "report", filename: Optio
     content = render_yaml(report)
     os.makedirs(output_dir, exist_ok=True)
 
-    # Determine a sensible filename if none provided
-    target = "report"
-    if isinstance(report, dict):
-        target = report.get("target") or report.get("host") or target
-    else:
-        target = getattr(report, "target", target)
-
-    safe_target = str(target).replace(os.sep, "_")
-    timestamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
-
+    filename = filename or generate_report_filename(report, output_dir=output_dir, extension="yaml")
     if filename:
         outpath = os.path.join(output_dir, filename)
     else:
-        outpath = os.path.join(output_dir, f"{safe_target}_{timestamp}.yaml")
+        outpath = os.path.join(output_dir, f"{filename}")
 
     with open(outpath, "w", encoding="utf-8") as fh:
         fh.write(content)
