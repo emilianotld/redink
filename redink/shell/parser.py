@@ -83,9 +83,9 @@ def build_parser():
     parser.add_argument(
         "-o",
         "--output",
-        choices=["normal", "json", "quiet"],
+        choices=["normal", "json", "quiet","yaml"],
         default="normal",
-        help="Output format: normal (default), json, quiet"
+        help="Output format: normal (default), json, quiet, yaml"
     )
     
     parser.add_argument(
