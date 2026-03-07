@@ -10,7 +10,6 @@ and estimating potential business impact.
 from .model import Finding
 from redink.config.loader import load_risk_config, load_scoring_config
 
-# Cargar configuraciones una sola vez al inicio del módulo
 SCORING_CONFIG = load_scoring_config()
 RISK_CONFIG = load_risk_config()
 

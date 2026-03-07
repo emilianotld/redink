@@ -23,7 +23,7 @@ def generate_report_filename(report, output_dir="report", extension="json"):
     Returns:
         str: The generated filename for the report.
     """
-     # Determine a sensible filename if none provided
+    # Determine a sensible filename if none provided
     target = "report"
     if isinstance(report, dict):
         target = report.get("target") or target
