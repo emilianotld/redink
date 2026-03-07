@@ -3,14 +3,18 @@
 # Licensed under the Apache License, Version 2.0
 
 """
-YAML report renderer/saver for RedInk.
+Risk evaluation engine responsible for classifying findings
+and estimating potential business impact.
 """
 
+
+"""
+YAML report renderer/saver for RedInk.
+"""
 from typing import Any, Optional
 import os
 import dataclasses
 import yaml
-
 from redink.reports.filename import generate_report_filename
 
 def _to_primitive(obj: Any) -> Any:
