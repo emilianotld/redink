@@ -122,7 +122,7 @@ Common options:
 ## Roadmap
 
 - [x] Initial reconnaissance module
-- [ ] JSON / YAML export support
+- [x] JSON / YAML export support
 - [ ] CI pipeline integration
 - [ ] Full compatibility with Kali Linux repositories
 
